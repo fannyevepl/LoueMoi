@@ -1,2 +1,14 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>All Items</h1>
+
+<ul>
+  <% @items.each do |item| %>
+    <li>
+      <strong>Name:</strong> <%= item.name %><br>
+      <strong>Category:</strong> <%= item.category %><br>
+      <strong>Description:</strong> <%= item.description %>
+      <%= link_to 'View Details', item_path(item) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Add New Item', new_item_path %>

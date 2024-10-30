@@ -1,2 +1,16 @@
-<h1>Items#new</h1>
-<p>Find me in app/views/items/new.html.erb</p>
+<h1>New Item</h1>
+
+<%= simple_form_for @item do |f| %>
+  <div>
+    <%= f.input :name %>
+  </div>
+  <div>
+    <%= f.input :category %>
+  </div>
+  <div>
+    <%= f.input :description %>
+  </div>
+  <div>
+    <%= f.button :submit, 'Create Item' %>
+  </div>
+<% end %>

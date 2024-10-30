@@ -6,7 +6,8 @@
       <strong>Name:</strong> <%= item.name %><br>
       <strong>Category:</strong> <%= item.category %><br>
       <strong>Description:</strong> <%= item.description %>
-      <%= link_to 'View Details', item_path(item) %>
+      <%= link_to 'View Details', item_path(item), class: 'btn btn-primary'%>
+      <%= link_to 'Book This Item', new_item_reservation_path(item), class: 'btn btn-primary' %>
     </li>
   <% end %>
 </ul>

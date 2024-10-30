@@ -1,10 +1,5 @@
 Rails.application.routes.draw do
-  get 'reservations/new'
-  get 'reservations/create'
-  get 'reservations/show'
-  get 'items/show'
-  get 'items/new'
-  get 'items/edit'
+
   devise_for :users
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

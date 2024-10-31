@@ -7,3 +7,14 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+user = User.first
+
+10.times do |i|
+  Item.create!(
+    user: user,
+    name: "Item #{i + 1}",
+    category: "Category #{i % 3 + 1}",
+    description: "Description for item #{i + 1}"
+  )
+end

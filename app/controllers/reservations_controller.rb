@@ -1,21 +1,28 @@
 class ReservationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_item, only: [:new, :create]
+  # before_action :set_reservation, only: [:show, :destroy]
 
   def new
     @reservation = @item.reservations.build
   end
 
   def show
-    @reservation = Reservation.find(params[:id])
+    @reservations = current_user.reservations.includes(:item)
   end
 
   def create
     @reservation = @item.reservations.build(reservation_params.merge(user: current_user, status: :pending))
     if @reservation.save
-      redirect_to @reservation, notice: 'Your reservation is pending confirmation.'
+      redirect_to reservations_path, notice: 'Your reservation is pending confirmation.'
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @reservation.destroy
+    redirect_to reservation_path, notice: 'Your reservation has been cancelled.'
   end
 
   private

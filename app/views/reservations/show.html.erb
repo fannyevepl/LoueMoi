@@ -1,2 +1,19 @@
 <h1>Reservations#show</h1>
 <p>Find me in app/views/reservations/show.html.erb</p>
+ <% if @reservations.any? %>
+  <ul><% @reservations.each do |reservation| %>
+    <li>
+      <strong>Item:</strong> <%= reservation.item.name %><br>
+      <strong>Status:</strong> <%= reservation.status.capitalize %><br>
+      <strong>Start Date:</strong> <%= reservation.start_date.strftime("%B %d, %Y") %><br>
+      <strong>End Date:</strong> <%= reservation.end_date.strftime("%B %d, %Y") %><br>
+      <%= link_to 'View Item', item_path(reservation.item) %>
+
+       <%= button_to 'Cancel Reservation', reservation_path(reservation), method: :delete, data: { confirm: 'Are you sure you want to cancel this reservation?' }, class: 'btn btn-danger' %>
+    </li>
+    <hr>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no reservations.</p>
+<% end %>

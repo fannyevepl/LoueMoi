@@ -1,14 +1,23 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:new, :create]
-  # before_action :set_reservation, only: [:show, :destroy]
+  before_action :set_reservation, only: [:show, :destroy]
+
+  def index
+    # Reservations user made
+    @my_reservations = current_user.reservations.includes(:item)
+
+    # Reservations for items that belong to the current user, excluding their own reservations
+    @reservations_for_my_items = Reservation.joins(:item)
+                               .where(items: { user_id: current_user.id })
+                               .where.not(user_id: current_user.id)
+  end
 
   def new
     @reservation = @item.reservations.build
   end
 
   def show
-    @reservations = current_user.reservations.includes(:item)
   end
 
   def create
@@ -22,10 +31,14 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation.destroy
-    redirect_to reservation_path, notice: 'Your reservation has been cancelled.'
+    redirect_to reservations_path, notice: 'Your reservation has been cancelled.'
   end
 
   private
+
+  def set_reservation
+    @reservation = Reservation.find(params[:id])
+  end
 
   def set_item
     @item = Item.find(params[:item_id])

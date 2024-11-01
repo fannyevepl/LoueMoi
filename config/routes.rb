@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   resources :items do
     resources :reservations, only: [:new, :create]
   end
-  resources :reservations, only: [:index, :show, :destroy]
+
+  resources :reservations, only: [:index, :show, :destroy] do
+    collection do
+      get :reservations_for_my_items
+    end
+  end
   
   # Route pour les erreurs 404
   match '/404', to: 'errors#not_found', via: :all

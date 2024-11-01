@@ -16,8 +16,9 @@
   justify-content: space-between;
 }
 .card-title {
-  padding: 0.3em;
-  text-align: center;
+  padding: 0.3em 0;
+  padding-bottom: 0.7em;
+  text-align: left;
   font-weight: 600;
 }
 
@@ -31,6 +32,11 @@
 .card-title a:hover,
 .card-description a:hover {
   color: rgb(217, 209, 209);
+}
+
+.card-links {
+  display: flex;
+  justify-content: space-between;
 }
 
 // Smallest device

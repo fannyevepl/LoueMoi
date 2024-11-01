@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="col">
+		<h1>Items for <%= current_user.first_name %> <%= current_user.last_name %></h1>
+	</div>
+</div>
+
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8">
+	  <%= link_to 'New Item', new_user_item_path(current_user), class: 'btn btn-primary' %>
+	  
+	  <table class="table table-striped mt-4">
+		<thead>
+		  <tr>
+			<th scope="col">Name</th>
+			<th scope="col">Description</th>
+			<th scope="col">Category</th>
+			<th scope="col">Actions</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <% @items.each do |item| %>
+			  <tr>
+				<th class='title' scope="row"><%= item.name %></th>
+				<td><%= item.description %></td>
+				<td><%= item.category %></td>
+				<td>
+					<div  class="d-flex justify-content-between">
+						<%= link_to 'Show', [current_user, item]%>
+							<%= link_to 'Edit', edit_user_item_path(current_user, item), class: 'mx-2' %>
+						  <%= link_to 'Destroy', [current_user, item], class: 'text-danger fs-6', data: {
+							  turbo_method: :delete,
+							  turbo_confirm: "Are you sure?"
+							}  %>
+					</div>
+			  </td>
+			  </tr>
+		  <% end %>
+		</tbody>
+	  </table>
+  </div>
+</div>

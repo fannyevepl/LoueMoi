@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
   get 'pages/about', as: 'about'
+  
+  resources :users, only: [] do
+    resources :items
+  end
 
   resources :items do
     resources :reservations, only: [:new, :create]

@@ -20,7 +20,8 @@
   </div>
 
   <div class="field">
-	<%= form.input :category %>
+	
+	<%= form.select :category, Item::CATEGORY, prompt: "Pick one" %>
   </div>
 
   <div class="actions">

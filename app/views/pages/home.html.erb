@@ -1,17 +1,24 @@
-<h1>All Items</h1>
-
-<ul>
-  <% @items.each do |item| %>
-    <li>
-      <strong>Name:</strong> <%= item.name %><br>
-      <strong>Category:</strong> <%= item.category %><br>
-      <strong>Description:</strong> <%= item.description %>
-      <%= link_to 'View Details', item_path(item), class: 'btn btn-primary'%>
-      <%= link_to 'Book This Item', new_item_reservation_path(item), class: 'btn btn-primary' %>
-    </li>
-  <% end %>
-</ul>
-
-<% if user_signed_in? %>
-  <%= link_to 'Add New Item', new_item_path %>
-<% end %>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8">
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @items.each do |item| %>
+      <div class="col">
+        <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= item.name %></h5>
+          <h6 class="card-subtitle mb-2 text-muted">Description</h6>
+          <p class="card-text"><%= item.description %></p>
+        <%= link_to 'Details', item_path(item)  %> 
+        <hr>
+        <div class="card-links">
+          <p class="card-link text-secondary small"><%= item.category %></p>
+          <p class="card-link text-secondary small"><%= item.user.first_name %> <%= item.user.last_name %></p>
+        </div>
+        </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+  <!-- style="width: 18rem;" -->
+</div>

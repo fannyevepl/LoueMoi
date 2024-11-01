@@ -1,2 +1,12 @@
-<h1>Items#edit</h1>
-<p>Find me in app/views/items/edit.html.erb</p>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-6">
+	<h1>Editing Item</h1>
+	
+	<%= render 'form', item: @item %>
+	
+	<div class="shared-link mt-4">
+		<%= link_to 'Show', [current_user, @item] %> |
+		<%= link_to 'Back', user_items_path(current_user) %>
+	</div>
+  </div>
+</div>

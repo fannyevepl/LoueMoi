@@ -8,12 +8,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="d-flex justify-content-center align-items-center mx-auto" style="width: 50%;">
-      <%= form_with url: search_items_path, method: :get, class: "d-flex w-100" do %>
-        <%= text_field_tag :query, params[:query], class: "form-control me-2 mt-6 mb-6", placeholder: "I am looking for ...", style: "flex-grow: 1;" %>
-        <%= button_tag(type: 'submit', class: 'btn btn-primary', style: 'border-color: white;') do %>
-          <i class="fa fa-search text-white"></i>
-        <% end %>
+    <div class="d-flex justify-content-center align-items-center mx-auto m-0" style="width: 50%;">
+      <%= form_with url: search_items_path, method: :get, class: "d-flex w-100 mt-0" do %>
+        <div class="flex-grow-1 me-2">
+          <%= text_field_tag :query, params[:query], class: "form-control mb-0", placeholder: "I am looking for ...", style: "width: 100%;" %>
+        </div>
+        <div>
+          <%= button_tag(type: 'submit', class: 'btn btn-primary', style: 'border-color: white;') do %>
+            <i class="fa fa-search text-white"></i>
+          <% end %>
+        </div>
       <% end %>
     </div>
 
@@ -21,7 +25,7 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to 'New Item', new_user_item_path(current_user), class: 'btn btn-primary mx-4' %>
+            <%= link_to 'New Item', new_user_item_path(current_user), class: 'btn btn-primary mx-4 text-decoration-none' %>
           </li>
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

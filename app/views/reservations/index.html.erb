@@ -1,3 +1,5 @@
+
+<!-- MY ACTIVE RESERVATIONS -->
 <h1>My Active Reservations</h1>
 
 <% if @my_active_reservations.any? %>
@@ -18,6 +20,8 @@
   <p>You have no active reservations.</p>
 <% end %>
 
+
+<!-- MY PAST RESERVATIONS -->
 <h1>My Past Reservations</h1>
 
 <% if @my_past_reservations.any? %>
@@ -37,6 +41,8 @@
   <p>You have no past reservations.</p>
 <% end %>
 
+
+<!-- MY ITEMS -->
 <h1>Reservations for My Items</h1>
 
 <% if @reservations_for_my_items.any? %>
@@ -63,6 +69,29 @@
   <p>No one has reserved your items yet.</p>
 <% end %>
 
+
+<!-- ONGOING FOR MY ITEMS -->
+<h1>Ongoing Reservations for My Items</h1>
+<% if @ongoing_reservations_for_my_items.any? %>
+  <ul>
+    <% @ongoing_reservations_for_my_items.each do |reservation| %>
+      <li>
+        <strong>Item:</strong> <%= reservation.item.name %><br>
+        <strong>Reserved By:</strong> <%= reservation.user.email %><br>
+        <strong>Status:</strong> <%= reservation.status.capitalize %><br>
+        <strong>Start Date:</strong> <%= reservation.start_date.strftime("%B %d, %Y") %><br>
+        <strong>End Date:</strong> <%= reservation.end_date.strftime("%B %d, %Y") %><br>
+        <%= link_to 'View Item', item_path(reservation.item) %>
+      </li>
+      <hr>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no ongoing reservations for your items.</p>
+<% end %>
+
+
+<!-- PAST RESERVATIONS FOR MY ITEMS -->
 <h1>Past Reservations for My Items</h1>
 
 <% if @past_reservations_for_my_items.any? %>

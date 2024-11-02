@@ -1,13 +1,13 @@
 # app/controllers/items_controller.rb
 class ItemsController < ApplicationController
   # before_action :authenticate_user!
-  # before_action :set_item, only: [:show, :edit, :update, :destroy]	
-  
+  # before_action :set_item, only: [:show, :edit, :update, :destroy]
+
   before_action :authenticate_user!, except: [:show]  # Modification ici
-  before_action :set_item, only: [:edit, :update, :destroy] 
-  
+  before_action :set_item, only: [:edit, :update, :destroy]
+
   def index
-  @items = current_user.items
+    @items = current_user.items
   end
 
   def show
@@ -15,19 +15,19 @@ class ItemsController < ApplicationController
   end
 
   def new
-  @item = current_user.items.build
+    @item = current_user.items.build
   end
 
   def edit
   end
 
   def create
-  @item = current_user.items.build(item_params)
-  if @item.save 
-    redirect_to user_items_path, notice: 'Item was successfully created.'
-  else
-    render :new, status: :unprocessable_entity
-  end
+    @item = current_user.items.build(item_params)
+    if @item.save
+      redirect_to user_items_path, notice: 'Item was successfully created.'
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -40,8 +40,14 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-  @item.destroy
-  redirect_to user_items_url(current_user), notice: 'Item was successfully destroyed.'
+    @item.destroy
+    redirect_to user_items_url(current_user), notice: 'Item was successfully destroyed.'
+  end
+
+  def search
+    @query = params[:query]
+    @items = Item.where("name ILIKE ?", "%#{@query}%")
+    render 'pages/home'
   end
 
   private
@@ -53,4 +59,3 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :description, :category)
   end
 end
-

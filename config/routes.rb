@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :reservations, only: [:new, :create]
   end
 
+  get 'search_items', to: 'items#search'
+
   resources :reservations, only: [:index, :show, :destroy] do
     collection do
       get :reservations_for_my_items

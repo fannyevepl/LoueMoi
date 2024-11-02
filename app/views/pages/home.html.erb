@@ -1,24 +1,18 @@
 <div class="row justify-content-center mt-4">
   <div class="col-md-8">
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    <% @items.each do |item| %>
-      <div class="col">
-        <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"><%= item.name %></h5>
-          <h6 class="card-subtitle mb-2 text-muted">Description</h6>
-          <p class="card-text"><%= item.description %></p>
-        <%= link_to 'Details', item_path(item)  %> 
-        <hr>
-        <div class="card-links">
-          <p class="card-link text-secondary small"><%= item.category %></p>
-          <p class="card-link text-secondary small"><%= item.user.first_name %> <%= item.user.last_name %></p>
+    <% if @query.present? %>
+      <h2>Search Results for "<%= @query %>":</h2>
+      <% if @items.any? %>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+          <%= render partial: 'shared/item_card', collection: @items, as: :item %>
         </div>
-        </div>
-        </div>
+      <% else %>
+        <p>No items found.</p>
+      <% end %>
+    <% else %>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <%= render partial: 'shared/item_card', collection: @items, as: :item %>
       </div>
     <% end %>
-    </div>
   </div>
-  <!-- style="width: 18rem;" -->
 </div>

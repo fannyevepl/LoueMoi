@@ -4,14 +4,21 @@ class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :destroy, :accept, :cancel]
 
   def index
+    today = Date.today
     # Reservations user made
     @my_active_reservations = current_user.reservations.includes(:item).where(status: 'pending')
     @my_past_reservations = current_user.reservations.includes(:item).where(status: ['accepted', 'canceled'])
 
     # Reservations for items that belong to the current user, excluding their own reservations
     @reservations_for_my_items = Reservation.joins(:item)
-                               .where(items: { user_id: current_user.id })
-                               .where(status: 'pending')
+                                            .where(items: { user_id: current_user.id })
+                                            .where(status: 'pending')
+
+    @ongoing_reservations_for_my_items = Reservation.joins(:item)
+                                                    .where(items: { user_id: current_user.id })
+                                                    .where(status: 'accepted')
+                                                    .where('end_date >= ?', today)
+
     @past_reservations_for_my_items = Reservation.joins(:item)
                                                  .where(items: { user_id: current_user.id })
                                                  .where(status: ['accepted', 'canceled'])

@@ -1,15 +1,19 @@
 <h1>My Reservations</h1>
 
-<% if @my_reservations.any? %>
+<% if @my_active_reservations.any? %>
   <ul>
-    <% @my_reservations.each do |reservation| %>
+    <% @my_active_reservations.each do |reservation| %>
       <li>
         <strong>Item:</strong> <%= reservation.item.name %><br>
         <strong>Status:</strong> <%= reservation.status.capitalize %><br>
         <strong>Start Date:</strong> <%= reservation.start_date.strftime("%B %d, %Y") %><br>
         <strong>End Date:</strong> <%= reservation.end_date.strftime("%B %d, %Y") %><br>
         <%= link_to 'View Item', item_path(reservation.item) %>
-        <%= button_to 'Cancel Reservation', reservation_path(reservation), method: :delete, data: { confirm: 'Are you sure you want to cancel this reservation?' }, class: 'btn btn-danger' %>
+        <% if reservation.status == 'pending' %>
+          <%= button_to 'Cancel Reservation', reservation_path(reservation), method: :delete, data: { confirm: 'Are you sure you want to cancel this reservation?' }, class: 'btn btn-danger' %>
+        <% else %>
+          <p><em>This reservation is <%= reservation.status %>.</em></p>
+        <% end %>
       </li>
       <hr>
     <% end %>
@@ -20,9 +24,36 @@
 
 <h1>Reservations for My Items</h1>
 
-<% if @reservations_for_my_items.any? %>
+<% if @my_past_reservations.any? %>
   <ul>
-    <% @reservations_for_my_items.each do |reservation| %>
+    <% @my_past_reservations.each do |reservation| %>
+      <li>
+        <strong>Item:</strong> <%= reservation.item.name %><br>
+        <strong>Reserved By:</strong> <%= reservation.user.email %><br>
+        <strong>Status:</strong> <%= reservation.status.capitalize %><br>
+        <strong>Start Date:</strong> <%= reservation.start_date.strftime("%B %d, %Y") %><br>
+        <strong>End Date:</strong> <%= reservation.end_date.strftime("%B %d, %Y") %><br>
+        <%= link_to 'View Item', item_path(reservation.item) %>
+
+        <% if reservation.status == 'pending' %>
+          <%= button_to 'Accept', accept_reservation_path(reservation), method: :patch, class: 'btn btn-success' %>
+          <%= button_to 'Cancel', cancel_reservation_path(reservation), method: :patch, data: { confirm: 'Are you sure you want to cancel this reservation?' }, class: 'btn btn-danger' %>
+        <% else %>
+          <p><em>This reservation is <%= reservation.status %>.</em></p>
+        <% end %>
+      </li>
+      <hr>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No one has reserved your items yet.</p>
+<% end %>
+
+<h1>Past Reservations for My Items</h1>
+
+<% if @past_reservations_for_my_items.any? %>
+  <ul>
+    <% @past_reservations_for_my_items.each do |reservation| %>
       <li>
         <strong>Item:</strong> <%= reservation.item.name %><br>
         <strong>Reserved By:</strong> <%= reservation.user.email %><br>
@@ -35,5 +66,5 @@
     <% end %>
   </ul>
 <% else %>
-  <p>No one has reserved your items yet.</p>
+  <p>No past reservations for your items.</p>
 <% end %>

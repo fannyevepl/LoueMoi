@@ -1,17 +1,32 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:new, :create]
-  before_action :set_reservation, only: [:show, :destroy]
+  before_action :set_reservation, only: [:show, :destroy, :accept, :cancel]
 
   def index
     # Reservations user made
-    @my_reservations = current_user.reservations.includes(:item)
+    @my_active_reservations = current_user.reservations.includes(:item).where(status: 'pending')
+    @my_past_reservations = current_user.reservations.includes(:item).where(status: ['accepted', 'canceled'])
 
     # Reservations for items that belong to the current user, excluding their own reservations
     @reservations_for_my_items = Reservation.joins(:item)
                                .where(items: { user_id: current_user.id })
-                               .where.not(user_id: current_user.id)
+                               .where(status: 'pending')
+    @past_reservations_for_my_items = Reservation.joins(:item)
+                                                 .where(items: { user_id: current_user.id })
+                                                 .where(status: ['accepted', 'canceled'])
   end
+
+  def accept
+    @reservation.update(status: 'accepted')
+    redirect_to reservations_path, notice: 'Reservation has been accepted.'
+  end
+
+  def cancel
+    @reservation.update(status: 'canceled')
+    redirect_to reservations_path, notice: 'Reservation has been canceled.'
+  end
+
 
   def new
     @reservation = @item.reservations.build

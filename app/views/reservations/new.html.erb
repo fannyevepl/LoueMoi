@@ -1,28 +1,63 @@
-<h1>New Reservation for <%= @item.name %></h1>
-
-<%= form_with(model: [@item, @reservation], local: true) do |form| %>
-  <% if @reservation.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
-      <ul>
-        <% @reservation.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h1 class="h4 mb-0">New reservation</h1>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :start_date %>
-    <%= form.date_field :start_date, id: :reservation_start_date %>
+    
+    <div class="card-body">
+      <div class="d-flex justify-content-center">
+        <%= form_with(model: [@item, @reservation], local: true, data: { controller: "reservation-dates" }) do |form| %>
+          <% if @reservation.errors.any? %>
+            <div id="error_explanation">
+              <h2 class=""><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+              <ul class="">
+                <% @reservation.errors.full_messages.each do |message| %>
+                  <li class=""><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        
+          <div class="field mb-4">
+            <%= form.label :start_date, class: "" %>
+            <%= form.text_field :start_date,
+                id: :reservation_start_date,
+                class: "",
+                data: {
+                  reservation_dates_target: "start",
+                  controller: "flatpickr",
+                  flatpickr_date_format: "Y-m-d",
+                  flatpickr_min_date: Time.zone.today
+                }
+            %>
+          </div>
+        
+          <div class="field mb-4">
+            <%= form.label :end_date, class: "" %>
+            <%= form.text_field :end_date,
+                id: :reservation_end_date,
+                class: "",
+                data: {
+                  reservation_dates_target: "end",
+                  controller: "flatpickr",
+                  flatpickr_date_format: "Y-m-d",
+                  flatpickr_min_date: Time.zone.today
+                }
+            %>
+          </div>
+        
+          <div class="actions">
+            <%= form.submit "Make Reservation", class: "" %>
+          </div>
+        <% end %>
+      </div>
+     
+      </div>
+    </div>
+    </div>
+  </div>
   </div>
 
-  <div class="field">
-    <%= form.label :end_date %>
-    <%= form.date_field :end_date, id: :reservation_end_date %>
-  </div>
 
-  <div class="actions">
-    <%= form.submit "Make Reservation" %>
-  </div>
-<% end %>

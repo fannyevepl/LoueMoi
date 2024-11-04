@@ -4,6 +4,20 @@
   grid-gap: 16px;
 }
 
+.card {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  backface-visibility: hidden;
+}
+
+.card.card-link-3d:hover {
+  transform: rotateX(6deg) rotateY(6deg) scale3d(1, 1, 1);
+  box-shadow: -15px -15px 20px rgba(255, 255, 255, 0.5),
+    15px 15px 25px rgba(0, 0, 0, 0.2);
+}
+
 .card-category {
   background-size: cover;
   background-position: center;

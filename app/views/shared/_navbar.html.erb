@@ -24,8 +24,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
+          <% if !current_page?(user_items_path(current_user)) %>
+            <li class="nav-item">
+              <%= link_to 'Create a new Item', new_user_item_path(current_user), class: 'btn btn-primary text-decoration-none' %>
+            </li>
+          <% end %>
           <li class="nav-item">
-            <%= link_to 'New Item', new_user_item_path(current_user), class: 'btn btn-primary mx-4 text-decoration-none' %>
+            <%= link_to current_user.first_name, edit_user_registration_path, class: 'btn btn-primary text-decoration-none' %>
           </li>
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

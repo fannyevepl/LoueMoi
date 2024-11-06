@@ -22,6 +22,9 @@ Rails.application.routes.draw do
       patch :cancel
     end
   end
+  
+  get 'tab1', to: 'controller#tab1', as: :myBooking
+  get 'tab2', to: 'controller#tab2', as: :myItemsBooking
 
   # Route pour les erreurs 404
   match '/404', to: 'errors#not_found', via: :all

@@ -4,8 +4,12 @@
       <div class="card-body">
         <h5 class="card-title"><%= item.name %></h5>
         <p class="card-text"><%= item.description %></p>
-        <picture class="thumbnail">
-          <img class="" src="https://abbeyjfitzgerald.com/wp-content/uploads/2018/01/camera-1.svg" alt="" />
+        <picture class="thumbnail d-flex justify-content-center">
+          <% if item.photo.attached? %>
+            <%= cl_image_tag item.photo.key, height: 300, width: 300, crop: :fit %>
+          <% else %> 
+            <img class="card-img-top" src="https://abbeyjfitzgerald.com/wp-content/uploads/2018/01/camera-1.svg" alt="">
+          <% end %>
         </picture>
         <hr>
         <div class="card-links">

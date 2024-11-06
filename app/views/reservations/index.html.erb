@@ -1,196 +1,235 @@
+<!-- app/views/votre_vue.html.erb -->
 <div class="container mt-4">
-  <% if notice %>
-    <div class="alert alert-success" role="alert">
-      <%= notice %>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active <%= 'active' if current_page?(myBooking_path) %>"
+              id="tab1-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab1-content"
+              type="button"
+              role="tab"
+              aria-controls="tab1-content"
+              aria-selected="<%= current_page?(myBooking_path) %>">
+        My Bookings
+      </button>
+    </li>
+    
+    <li class="nav-item" role="presentation">
+      <button class="nav-link <%= 'active' if current_page?(myItemsBooking_path) %>"
+              id="tab2-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab2-content"
+              type="button"
+              role="tab"
+              aria-controls="tab2-content"
+              aria-selected="<%= current_page?(myItemsBooking_path) %>">
+        Bookings for My Items
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active <%= 'show active' if current_page?(myBooking_path) %>"
+         id="tab1-content"
+         role="tabpanel"
+         aria-labelledby="tab1-tab">
+      <div>
+        <!-- Bookings Requests I Have Made -->
+        <div class="card mb-4 my-4">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Booking Requests I Have Made</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Owner</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @my_active_reservations.each do |reservation| %>
+                    <tr>
+                      <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
+                      <td><%= "#{reservation.item.user.first_name} #{reservation.item.user.last_name}" %></td>
+                      <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                      <td><span class="badge bg-warning">Pending</span></td>
+                      <td>
+                        <%= button_to reservation_path(reservation), method: :delete, class: 'btn btn-sm btn-danger', data: { confirm: 'Are you sure you want to cancel this reservation?' } do %>
+                          <i class="bi bi-trash"></i> Cancel
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Ongoing Bookings -->
+        <div class="card mb-4 my-4">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Ongoing Bookings</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @my_ongoing_reservations.each do |reservation| %>
+                    <tr>
+                      <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
+                      <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                      <td><span class="badge bg-primary">Ongoing</span></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- My Past Bookings -->
+        <div class="card mb-4 my-4">
+          <div class="card-header bg-secondary text-white">
+            <h2 class="h5 mb-0">My Past Bookings</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Owner</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @my_past_reservations.each do |reservation| %>
+                    <tr>
+                      <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
+                      <td><%= "#{reservation.item.user.first_name} #{reservation.item.user.last_name}" %></td>
+                      <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                      <td><span class="badge bg-secondary">Finished</span></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-</div>
-<h1>Manage My Bookings:</h1>
-<!-- Bookings Requests I Have Made -->
-<div class="card mb-4 my-4">
-  <div class="card-header bg-primary text-white">
-    <h2 class="h5 mb-0">Booking Requests I Have Made</h2>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Owner</th>
-            <th>Dates</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @my_active_reservations.each do |reservation| %>
-            <tr>
-              <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
-              <td><%= "#{reservation.item.user.first_name} #{reservation.item.user.last_name}" %></td>
-              <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-              <td><span class="badge bg-warning">Pending</span></td>
-              <td>
-                <%= button_to reservation_path(reservation), method: :delete, class: 'btn btn-sm btn-danger', data: { confirm: 'Are you sure you want to cancel this reservation?' } do %>
-                  <i class="bi bi-trash"></i> Cancel
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<!-- Ongoing Bookings -->
-<div class="card mb-4 my-4">
-  <div class="card-header bg-primary text-white">
-    <h2 class="h5 mb-0">Ongoing Bookings</h2>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Dates</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @my_ongoing_reservations.each do |reservation| %>
-            <tr>
-              <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
-              <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-              <td><span class="badge bg-primary">Ongoing</span></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<!-- My Past Bookings -->
-<div class="card mb-4 my-4">
-  <div class="card-header bg-secondary text-white">
-    <h2 class="h5 mb-0">My Past Bookings</h2>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Owner</th>
-            <th>Dates</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @my_past_reservations.each do |reservation| %>
-            <tr>
-              <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
-              <td><%= "#{reservation.item.user.first_name} #{reservation.item.user.last_name}" %></td>
-              <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-              <td><span class="badge bg-secondary">Finished</span></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<h1>Manage Bookings for My Items:</h1>
-<!-- Booking Requests for My Items -->
-<div class="card mb-4 my-4">
-  <div class="card-header bg-success text-white">
-    <h2 class="h5 mb-0">Booking Requests for My Items</h2>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Borrower</th>
-            <th>Dates</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @reservations_for_my_items.each do |reservation| %>
-            <tr>
-              <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
-              <td><%= "#{reservation.user.first_name} #{reservation.user.last_name}" %></td>
-              <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-              <td><span class="badge bg-warning">Pending</span></td>
-              <td>
-                <%= button_to 'Accept', accept_reservation_path(reservation), method: :patch, class: 'btn btn-sm btn-success' %>
-                <%= button_to 'Reject', cancel_reservation_path(reservation), method: :patch, data: { confirm: 'Are you sure you want to reject this reservation?' }, class: 'btn btn-sm btn-danger' %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<!-- Ongoing Reservations for My Items -->
-<div class="card mb-4 my-4">
-  <div class="card-header bg-success text-white">
-    <h2 class="h5 mb-0">Ongoing Bookings for My Items</h2>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Borrower</th>
-            <th>Dates</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @ongoing_reservations_for_my_items.each do |reservation| %>
-            <tr>
-              <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
-              <td><%= "#{reservation.user.first_name} #{reservation.user.last_name}" %></td>
-              <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-              <td><span class="badge bg-primary">Ongoing</span></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<!-- Past Bookings for My Items -->
-<div class="card mb-4 my-4">
-  <div class="card-header bg-secondary text-white">
-    <h2 class="h5 mb-0">Past Bookings for My Items</h2>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Borrower</th>
-            <th>Dates</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @past_reservations_for_my_items.each do |reservation| %>
-            <tr>
-              <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
-              <td><%= "#{reservation.user.first_name} #{reservation.user.last_name}" %></td>
-              <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+
+    <div class="tab-pane fade <%= 'show active' if current_page?(myItemsBooking_path) %>"
+         id="tab2-content"
+         role="tabpanel"
+         aria-labelledby="tab2-tab">
+      <div>
+        <!-- Booking Requests for My Items -->
+        <div class="card mb-4 my-4">
+          <div class="card-header bg-success text-white">
+            <h2 class="h5 mb-0">Booking Requests for My Items</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Borrower</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @reservations_for_my_items.each do |reservation| %>
+                    <tr>
+                      <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
+                      <td><%= "#{reservation.user.first_name} #{reservation.user.last_name}" %></td>
+                      <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                      <td><span class="badge bg-warning">Pending</span></td>
+                      <td>
+                        <%= button_to 'Accept', accept_reservation_path(reservation), method: :patch, class: 'btn btn-sm btn-success' %>
+                        <%= button_to 'Reject', cancel_reservation_path(reservation), method: :patch, data: { confirm: 'Are you sure you want to reject this reservation?' }, class: 'btn btn-sm btn-danger' %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Ongoing Reservations for My Items -->
+        <div class="card mb-4 my-4">
+          <div class="card-header bg-success text-white">
+            <h2 class="h5 mb-0">Ongoing Bookings for My Items</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Borrower</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @ongoing_reservations_for_my_items.each do |reservation| %>
+                    <tr>
+                      <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
+                      <td><%= "#{reservation.user.first_name} #{reservation.user.last_name}" %></td>
+                      <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                      <td><span class="badge bg-primary">Ongoing</span></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Past Bookings for My Items -->
+        <div class="card mb-4 my-4">
+          <div class="card-header bg-secondary text-white">
+            <h2 class="h5 mb-0">Past Bookings for My Items</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Borrower</th>
+                    <th>Dates</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @past_reservations_for_my_items.each do |reservation| %>
+                    <tr>
+                      <td><%= link_to reservation.item.name, item_path(reservation.item) %></td>
+                      <td><%= "#{reservation.user.first_name} #{reservation.user.last_name}" %></td>
+                      <td>From <%= reservation.start_date.strftime("%d/%m/%Y") %> - To <%= reservation.end_date.strftime("%d/%m/%Y") %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

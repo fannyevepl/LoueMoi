@@ -11,9 +11,12 @@ class Item < ApplicationRecord
     "Reading and Study Materials",
     "Transportation Equipment"
   ]
-  
+
   belongs_to :user
   has_many :reservations, dependent: :destroy
+
+  geocoded_by :address
+  after_validation :geocode, if: :will_save_change_to_address?
 
   validates :name, presence: true
   validates :category, presence: true, inclusion: { in: CATEGORY }

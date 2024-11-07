@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   # before_action :authenticate_user!
   # before_action :set_item, only: [:show, :edit, :update, :destroy]
 
-  before_action :authenticate_user!, except: [:show]  # Modification ici
+  before_action :authenticate_user!, except: [:show]
   before_action :set_item, only: [:edit, :update, :destroy]
 
   def index
@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-  @item = Item.find(params[:id])  # On cherche l'item dans tous les items, pas seulement ceux de l'utilisateur courant
+    @item = Item.find(params[:id])
   end
 
   def new

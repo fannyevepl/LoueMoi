@@ -12,6 +12,8 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
+    @items = [@item]
+    @markers = @items.map { |item| { lat: item.latitude, lng: item.longitude } }
   end
 
   def new
@@ -56,6 +58,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :description, :category)
+    params.require(:item).permit(:name, :description, :address, :category)
   end
 end

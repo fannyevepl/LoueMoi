@@ -18,6 +18,7 @@ class Item < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: :will_save_change_to_address?
 
+  has_one_attached :photo
   validates :name, presence: true
   validates :category, presence: true, inclusion: { in: CATEGORY }
   validates :description, presence: true

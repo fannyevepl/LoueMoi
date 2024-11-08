@@ -1,16 +1,27 @@
-<div class="col">
-  <%= link_to item_path(item), class: "text-decoration-none" do %>
-    <div class="card card-link-3d">
-      <div class="card-body">
+<div class="col mb-3 d-flex">
+  <%= link_to item_path(item), class: "text-decoration-none w-100" do %>
+    <div class="card card-link-3d h-100">
+      <div class="card-body d-flex flex-column">
         <h5 class="card-title"><%= item.name %></h5>
         <p class="card-text"><%= item.description %></p>
-        <picture class="thumbnail">
-          <img class="" src="https://abbeyjfitzgerald.com/wp-content/uploads/2018/01/camera-1.svg" alt="" />
+        
+        <picture class="thumbnail d-flex justify-content-center flex-grow-1">
+          <% if item.photo.attached? %>
+            <%= cl_image_tag item.photo.key, height: 300, width: 300, crop: :fit, class: "object-fit-cover" %>
+          <% else %> 
+            <img class="card-img-top" src="https://abbeyjfitzgerald.com/wp-content/uploads/2018/01/camera-1.svg" alt="">
+          <% end %>
         </picture>
-        <hr>
+        
+        <hr class="mt-4">
+        
         <div class="card-links">
-          <p class="card-link text-secondary small"><span class="badge bg-primary px-3 py-2"><%= item.category %></span></p>
-          <p class="card-link text-secondary small"><%= item.user.first_name %> <%= item.user.last_name %></p>
+          <p class="card-link text-secondary small mb-1">
+            <span class="badge bg-primary px-3 py-2"><%= item.category %></span>
+          </p>
+          <p class="card-link text-secondary small mb-0">
+            <%= item.user.first_name %> <%= item.user.last_name %>
+          </p>
         </div>
       </div>
     </div>

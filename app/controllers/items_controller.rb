@@ -12,6 +12,7 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
+    # for map
     @items = [@item]
     @markers = @items.map { |item| { lat: item.latitude, lng: item.longitude } }
   end

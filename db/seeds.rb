@@ -7,14 +7,31 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require 'faker'
 
 user = User.first
 
-10.times do |i|
+Item.destroy_all
+
+category = [
+  "Gardening Tools",
+  "Sports Equipment",
+  "DIY Tools",
+  "Camping Gear",
+  "Kitchen Appliances",
+  "Cleaning Equipment",
+  "Games and Toys",
+  "Party Supplies",
+  "Reading and Study Materials",
+  "Transportation Equipment"
+]
+
+100.times do |i|
   Item.create!(
     user: user,
-    name: "Item #{i + 1}",
-    category: "Category #{i % 3 + 1}",
-    description: "Description for item #{i + 1}"
+    name: Faker::Commerce.product_name,
+    category: category.sample,
+    description: Faker::Lorem.sentence,
+    address: Faker::Address.full_address
   )
 end

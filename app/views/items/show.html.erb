@@ -1,59 +1,67 @@
 <div class="row justify-content-center mt-4">
   <div class="col-md-6">
-  <div class="card">
-    <div class="card-header">
-    <h2><%= @item.name %></h2>
-    </div>
-    
-    <div class="card-body">
-    <% if notice %>
-      <div class="alert alert-success" role="alert">
-      <%= notice %>
+    <div class="card">
+      <div class="card-header">
+        <h2><%= @item.name %></h2>
       </div>
-    <% end %>
-    
-    <dl class="row">
-      <dt class="col-sm-4">Description</dt>
-      <dd class="col-sm-8"><%= @item.description %></dd>
 
-      <dt class="col-sm-4">Category</dt>
-      <dd class="col-sm-8"><%= @item.category %></dd>
-
-      <dt class="col-sm-4">Owner</dt>
-      <dd class="col-sm-8">
-      <%= "#{@item.user.first_name} #{@item.user.last_name}" %>
-      </dd>
-    </dl>
-
-    <div class="mt-4">
-      <% if user_signed_in? %>
-      <% if current_user == @item.user %>
-        <%# Options du propriétaire %>
-        <div class="card-links">
-            <%= link_to 'Edit', edit_user_item_path(current_user, @item), 
-              class: 'btn btn-primary me-2' %>
-            <%= link_to 'Back', user_items_path(current_user), 
-              class: 'btn btn-outline-primary' %>
-        </div>
-      <% else %>
-        <%# Options de l'utilisateur connecté non propriétaire %>
-          <div class="card-links">
-            <%= link_to 'Reservation', new_item_reservation_path(@item), 
-              class: 'btn btn-primary me-2' %>
-            <%= link_to 'Back', root_path, 
-              class: 'btn btn-outline-primary' %>
-        </div>
-      <% end %>
-      <% else %>
-      <%# Options pour visiteur non connecté %>
-      <div class="card-links">
-        <%= link_to 'Sign in to reserve', new_user_session_path, 
-        class: 'btn btn-primary me-2' %>
-        <%= link_to 'Back', root_path, 
-        class: 'btn btn-outline-primary' %>
-      </div>
+      <div class="card-body">
+        <% if notice %>
+          <div class="alert alert-success" role="alert">
+            <%= notice %>
+          </div>
         <% end %>
+
+        <dl class="row">
+          <dt class="col-sm-4">Description</dt>
+          <dd class="col-sm-8"><%= @item.description %></dd>
+
+          <dt class="col-sm-4">Category</dt>
+          <dd class="col-sm-8"><%= @item.category %></dd>
+
+          <dt class="col-sm-4">Owner</dt>
+          <dd class="col-sm-8">
+            <%= "#{@item.user.first_name} #{@item.user.last_name}" %>
+          </dd>
+
+          <dt class="col-sm-4">Address</dt>
+          <dd class="col-sm-8">
+            <%= "#{@item.address}" %>
+          </dd>
+        </dl>
+
+        <div class="mt-4">
+          <% if user_signed_in? %>
+            <% if current_user == @item.user %>
+              <%# Options du propriétaire %>
+              <div class="card-links">
+                <%= link_to 'Edit', edit_user_item_path(current_user, @item), class: 'btn btn-primary me-2' %>
+                <%= link_to 'Back', user_items_path(current_user), class: 'btn btn-outline-primary' %>
+              </div>
+            <% else %>
+              <%# Options de l'utilisateur connecté non propriétaire %>
+              <div class="card-links">
+                <%= link_to 'Reservation', new_item_reservation_path(@item), class: 'btn btn-primary me-2' %>
+                <%= link_to 'Back', root_path, class: 'btn btn-outline-primary' %>
+              </div>
+            <% end %>
+          <% else %>
+            <%# Options pour visiteur non connecté %>
+            <div class="card-links">
+              <%= link_to 'Sign in to reserve', new_user_session_path, class: 'btn btn-primary me-2' %>
+              <%= link_to 'Back', root_path, class: 'btn btn-outline-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="col-md-6">
+    <div style="width: 100%; height: 600px;" data-controller="map" data-map-markers-value="<%= @markers.to_json %>" data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+      <div class="map-zoom">
+        <button class="zoom-in">+</button>
+        <button class="zoom-out">-</button>
+      </div>
     </div>
   </div>
   </div>

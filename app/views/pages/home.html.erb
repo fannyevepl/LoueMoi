@@ -1,16 +1,16 @@
-<!-- Jumbotron personnalisé -->
-<div class="container jumbotron-wrapper d-none d-sm-block">
+<% unless user_signed_in? %>
+  <div class="container jumbotron-wrapper d-none d-sm-block">
     <div class="p-5 mb-4 bg-light rounded-3 jumbotron">
         <div class="container-fluid py-5">
             <h1 class="display-5 fw-bold mb-4">LoueMoi</h1>
             <blockquote class="blockquote text-left">
-              <p class="col-md-12 fs-4">Connect with your neighbors and share services effortlessly. Join Louemoi today and build a stronger community!</p>
-            <%= link_to "Signup", new_user_registration_path, class: "btn btn-primary btn-lg"  %>
+              <p class="col-md-12 fs-4">Join LoueMoi today and be part of a vibrant community where you can lend and borrow items with ease!</p>
+            <%= link_to "Signup", new_user_registration_path, class: "btn btn-primary btn-lg text-decoration-none"  %>
             </blockquote>
         </div>
     </div>
-</div>
-
+  </div>
+<% end %>
 
 <div class="row justify-content-center mt-4">
   <div class="col-md-12">

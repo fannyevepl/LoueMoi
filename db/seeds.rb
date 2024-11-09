@@ -9,29 +9,33 @@
 #   end
 require 'faker'
 
-user = User.first
+puts "Seeding items"
 
-Item.destroy_all
+User.all.each do |user|
+  Item.destroy_all
 
-category = [
-  "Gardening Tools",
-  "Sports Equipment",
-  "DIY Tools",
-  "Camping Gear",
-  "Kitchen Appliances",
-  "Cleaning Equipment",
-  "Games and Toys",
-  "Party Supplies",
-  "Reading and Study Materials",
-  "Transportation Equipment"
-]
+  category = [
+    "Gardening Tools",
+    "Sports Equipment",
+    "DIY Tools",
+    "Camping Gear",
+    "Kitchen Appliances",
+    "Cleaning Equipment",
+    "Games and Toys",
+    "Party Supplies",
+    "Reading and Study Materials",
+    "Transportation Equipment"
+  ]
 
-100.times do |i|
-  Item.create!(
-    user: user,
-    name: Faker::Commerce.product_name,
-    category: category.sample,
-    description: Faker::Lorem.sentence,
-    address: Faker::Address.full_address
-  )
+  100.times do |i|
+    Item.create!(
+      user: user,
+      name: Faker::Commerce.product_name,
+      category: category.sample,
+      description: Faker::Lorem.sentence,
+      address: Faker::Address.full_address
+    )
+  end
 end
+
+puts "Done seeding"

@@ -29,7 +29,14 @@
             <%= "#{@item.address}" %>
           </dd>
         </dl>
-
+<dt class="col-sm-4">Photo</dt>
+<dd class="col-sm-8 d-flex justify-content-center">
+  <% if @item.photo.attached? %>
+    <%= cl_image_tag @item.photo.key, height: 300, width: 300, crop: :fit, class: "object-fit-cover" %>
+  <% else %>
+    <img src="https://abbeyjfitzgerald.com/wp-content/uploads/2018/01/camera-1.svg" alt="Placeholder image">
+  <% end %>
+</dd>
         <div class="mt-4">
           <% if user_signed_in? %>
             <% if current_user == @item.user %>

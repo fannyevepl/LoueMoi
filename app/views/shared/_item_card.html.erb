@@ -9,7 +9,7 @@
           <% if item.photo.attached? %>
           <%= cl_image_tag item.photo.key, 
           transformation: [
-            { width: 440, height: 360, crop: :fit }
+            { width: 440, height: 360, crop: :fill }
           ], class: "img-thumbnail  " %>
 
           <% else %> 

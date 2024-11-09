@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :reservations, dependent: :destroy
   has_many :items, dependent: :destroy
+  has_one_attached :photo
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :first_name, presence: true

@@ -12,6 +12,8 @@
         <%= f.input :last_name, required: true %>
         
         <%= f.input :email, required: true %>
+        
+        <%= f.input :photo, as: :file, label: "Upload Profile Photo" %>
 
         <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
           <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>

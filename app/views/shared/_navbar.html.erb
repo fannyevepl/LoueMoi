@@ -20,8 +20,8 @@
       <% end %>
     </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto gap-3 ">
+    <div class="collapse navbar-collapse mx-2" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto gap-3 align-items-center">
         <% if user_signed_in? %>
           <% if !current_page?(user_items_path(current_user)) %>
             <li class="nav-item">
@@ -31,10 +31,14 @@
           <li class="nav-item">
             <%= link_to current_user.first_name, edit_user_registration_path, class: 'btn btn-primary text-decoration-none' %>
           </li>
-          <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "avatar.jpg", class: "avatar", alt: "dropdown menu" %>
-          </a>
+          <li class="nav-item dropdown d-flex align-items-center justify-content-center" style="height: 100%;">
+            <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <% if current_user.photo.attached? %>
+                <%= cl_image_tag current_user.photo.key, class: "avatar", alt: "#{current_user.first_name}'s profile picture" %>
+              <% else %>
+                <%= image_tag "avatar.jpg", class: "avatar", alt: "Default profile picture" %>
+              <% end %>
+            </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Edit my profile", edit_user_registration_path, class: "dropdown-item" %>
               <%= link_to "Dashboard Items", user_items_path(current_user), class: "dropdown-item" %>
@@ -43,11 +47,11 @@
             </div>
           </li>
         <% else %>
-        <li class="nav-item">
-          <%= link_to "About us", about_path, class: "nav-link" %>
-        </li>
           <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+            <%= link_to "About us", about_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Login", new_user_session_path, class: "btn btn-primary text-decoration-none" %>
           </li>
         <% end %>
       </ul>

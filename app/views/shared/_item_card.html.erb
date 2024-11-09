@@ -3,14 +3,17 @@
     <div class="card card-link-3d h-100">
       <div class="card-body d-flex flex-column">
         <h5 class="card-title"><%= item.name %></h5>
-        <p class="card-text"><%= item.description %></p>
+        <p class="card-text"><%= truncate(item.description, length: 100, separator: ' ') %></p>
+        
+        
+        
         
         <picture class="thumbnail d-flex justify-content-center flex-grow-1">
           <% if item.photo.attached? %>
           <%= cl_image_tag item.photo.key, 
           transformation: [
             { width: 440, height: 360, crop: :fill }
-          ], class: "img-thumbnail  " %>
+          ], class: "img-thumbnail" %>
 
           <% else %> 
             <img class="card-img-top" src="https://abbeyjfitzgerald.com/wp-content/uploads/2018/01/camera-1.svg" alt="">

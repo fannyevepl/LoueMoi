@@ -1,17 +1,37 @@
 .navbar-lewagon {
   justify-content: space-between;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .navbar-lewagon .navbar-collapse {
   flex-grow: 0;
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 }
 
 .navbar-lewagon .navbar-brand img {
   width: 120px;
+  @media (max-width: 576px) {
+    width: 100px;
+  }
 }
 
 a.nav-link {
   color: $off-white;
+}
+
+.navbar-lewagon .create-new-item-button,
+.navbar-lewagon .search-button {
+  margin-right: 10px; // Adjust the margin as needed
+  @media (max-width: 576px) {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px; // Add margin at the bottom for small screens
+  }
 }
 
 // custom
@@ -88,5 +108,19 @@ header {
         }
       }
     }
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 576px) {
+    width: 30px;
+    height: 30px;
   }
 }

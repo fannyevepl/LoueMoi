@@ -48,6 +48,17 @@
   color: rgb(217, 209, 209);
 }
 
+.card-photo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-photo {
+  max-width: 100%;
+  height: auto;
+}
+
 .card-links {
   display: flex;
   justify-content: space-between;
